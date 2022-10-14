@@ -39,6 +39,11 @@ const { NotImplementedError } = require('../extensions/index.js');
       } else (transformedArr.splice(ind,1))
     }
   })
+  transformedArr.forEach((el, ind) => {
+    if (ind !==0 && ind !==transformedArr.length-1 && (el === '--double-prev' || el === '--discard-prev')) {
+      transformedArr.splice(ind, 1)
+    }
+  })
   return transformedArr
 }
 

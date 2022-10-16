@@ -20,13 +20,46 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(rev = true) {
+    this.rev = rev
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(string, key) {
+    if (string === undefined || key === undefined) throw Error("Incorrect arguments!");
+    let res = []
+    string = string.toLowerCase().split('')
+    key = key.toLowerCase().repeat(1000);
+    for (let i = 0; i < string.length; i++) {
+      if (string[i] === ' ') {
+        res.push(string(i))
+      } else if (string[i].charCodeAt() < 97 || string[i].charCodeAt() > 122) {
+        res.push(string[i]);
+      } else {
+        const code = ((string[i].charCodeAt() - 97) + (key[i].charCodeAt() - 97)) % 26
+        res.push(String.fromCharCode(code + 97))
+      }
+      if (this.rev) {
+        return res.join("").toUpperCase()
+      } else return res.reverse().join("").toUpperCase()
+    }    
+  }
+  decrypt(string,key) {
+    if (string === undefined || key === undefined) throw Error("Incorrect arguments!");
+    let res = []
+    string = string.toLowerCase().split('')
+    key = key.toLowerCase().repeat(1000);
+    for (let i = 0; i < string.length; i++) {
+      if (string[i] === ' ') {
+        res.push(string(i))
+      } else if (string[i].charCodeAt() < 97 || string[i].charCodeAt() > 122) {
+        res.push(string[i]);
+      } else {
+        const code = ((string[i].charCodeAt() - 97) - (key[i].charCodeAt() - 97)) % 26
+        res.push(String.fromCharCode(code + 97))
+      }
+      if (this.rev) {
+        return res.join("").toUpperCase()
+      } else return res.reverse().join("").toUpperCase()
+    }
   }
 }
 

@@ -26,40 +26,45 @@ class VigenereCipheringMachine {
   encrypt(string, key) {
     if (string === undefined || key === undefined) throw Error("Incorrect arguments!");
     let res = []
-    string = string.toLowerCase().split('')
+    let stringEnc = string.toLowerCase().split('')
     key = key.toLowerCase().repeat(1000);
-    for (let i = 0; i < string.length; i++) {
-      if (string[i] === ' ') {
-        res.push(string(i))
-      } else if (string[i].charCodeAt() < 97 || string[i].charCodeAt() > 122) {
-        res.push(string[i]);
+    let keyInd = 0;
+    for (let i = 0; i < stringEnc.length; i++) {
+      if (stringEnc[i] === ' ') {
+        res.push(stringEnc[i])
+      } else if (stringEnc[i].charCodeAt() < 97 || stringEnc[i].charCodeAt() > 122) {
+        res.push(stringEnc[i]);
       } else {
-        const code = ((string[i].charCodeAt() - 97) + (key[i].charCodeAt() - 97)) % 26
-        res.push(String.fromCharCode(code + 97))
+        const code = ((stringEnc[i].charCodeAt() - 97) + (key[keyInd].charCodeAt()) - 97) % 26 + 97
+        res.push(String.fromCharCode(code))
+        keyInd++
       }
-      if (this.rev) {
-        return res.join("").toUpperCase()
-      } else return res.reverse().join("").toUpperCase()
-    }    
+    } 
+    if (this.rev) {
+      return res.join("").toUpperCase()
+    } else return res.reverse().join("").toUpperCase()   
   }
   decrypt(string,key) {
-    if (string === undefined || key === undefined) throw Error("Incorrect arguments!");
+    if (string === undefined) throw Error("Incorrect arguments!");
+    if (key === undefined) throw Error("Incorrect arguments!");
     let res = []
-    string = string.toLowerCase().split('')
+    let stringDec = string.toLowerCase().split('')
     key = key.toLowerCase().repeat(1000);
-    for (let i = 0; i < string.length; i++) {
-      if (string[i] === ' ') {
-        res.push(string(i))
-      } else if (string[i].charCodeAt() < 97 || string[i].charCodeAt() > 122) {
-        res.push(string[i]);
+    let keyInd = 0;
+    for (let i = 0; i < stringDec.length; i++) {
+      if (stringDec[i] === ' ') {
+        res.push(stringDec[i])
+      } else if (stringDec[i].charCodeAt() < 97 || stringDec[i].charCodeAt() > 122) {
+        res.push(stringDec[i]);
       } else {
-        const code = ((string[i].charCodeAt() - 97) - (key[i].charCodeAt() - 97)) % 26
-        res.push(String.fromCharCode(code + 97))
+        const code = ((stringDec[i].charCodeAt() - 97) - (key[keyInd].charCodeAt() - 97) + 26) % 26 + 97
+        res.push(String.fromCharCode(code))
+        keyInd++
       }
-      if (this.rev) {
-        return res.join("").toUpperCase()
-      } else return res.reverse().join("").toUpperCase()
     }
+    if (this.rev) {
+      return res.join("").toUpperCase()
+    } else return res.reverse().join("").toUpperCase()
   }
 }
 
